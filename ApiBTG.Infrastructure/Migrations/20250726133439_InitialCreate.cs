@@ -12,7 +12,7 @@ namespace ApiBTG.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Clientes",
+                name: "Cliente",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -24,11 +24,11 @@ namespace ApiBTG.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clientes", x => x.Id);
+                    table.PrimaryKey("PK_Cliente", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Productos",
+                name: "Producto",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -38,11 +38,11 @@ namespace ApiBTG.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Productos", x => x.Id);
+                    table.PrimaryKey("PK_Producto", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sucursales",
+                name: "Sucursal",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -52,7 +52,7 @@ namespace ApiBTG.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sucursales", x => x.Id);
+                    table.PrimaryKey("PK_Sucursal", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,7 +90,7 @@ namespace ApiBTG.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Disponibilidades",
+                name: "Disponibilidad",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -101,124 +101,113 @@ namespace ApiBTG.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Disponibilidades", x => x.Id);
+                    table.PrimaryKey("PK_Disponibilidad", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Disponibilidades_Productos_IdProducto",
+                        name: "FK_Disponibilidad_Producto_IdProducto",
                         column: x => x.IdProducto,
-                        principalTable: "Productos",
+                        principalTable: "Producto",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Disponibilidades_Sucursales_IdSucursal",
+                        name: "FK_Disponibilidad_Sucursal_IdSucursal",
                         column: x => x.IdSucursal,
-                        principalTable: "Sucursales",
+                        principalTable: "Sucursal",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Visitas",
+                name: "Visita",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdSucursal = table.Column<int>(type: "int", nullable: false),
                     IdCliente = table.Column<int>(type: "int", nullable: false),
-                    FechaVisita = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FechaVisita = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TipoAccion = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Visitas", x => x.Id);
+                    table.PrimaryKey("PK_Visita", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Visitas_Clientes_IdCliente",
+                        name: "FK_Visita_Cliente_IdCliente",
                         column: x => x.IdCliente,
-                        principalTable: "Clientes",
+                        principalTable: "Cliente",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Visitas_Sucursales_IdSucursal",
+                        name: "FK_Visita_Sucursal_IdSucursal",
                         column: x => x.IdSucursal,
-                        principalTable: "Sucursales",
+                        principalTable: "Sucursal",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Inscripciones",
+                name: "Inscripcion",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdCliente = table.Column<int>(type: "int", nullable: false),
-                    IdDisponibilidad = table.Column<int>(type: "int", nullable: false),
-                    ProductoId = table.Column<int>(type: "int", nullable: true)
+                    IdDisponibilidad = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Inscripciones", x => x.Id);
+                    table.PrimaryKey("PK_Inscripcion", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Inscripciones_Clientes_IdCliente",
+                        name: "FK_Inscripcion_Cliente_IdCliente",
                         column: x => x.IdCliente,
-                        principalTable: "Clientes",
+                        principalTable: "Cliente",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Inscripciones_Disponibilidades_IdDisponibilidad",
+                        name: "FK_Inscripcion_Disponibilidad_IdDisponibilidad",
                         column: x => x.IdDisponibilidad,
-                        principalTable: "Disponibilidades",
+                        principalTable: "Disponibilidad",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Inscripciones_Productos_ProductoId",
-                        column: x => x.ProductoId,
-                        principalTable: "Productos",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Disponibilidades_IdProducto",
-                table: "Disponibilidades",
+                name: "IX_Disponibilidad_IdProducto",
+                table: "Disponibilidad",
                 column: "IdProducto");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Disponibilidades_IdSucursal_IdProducto",
-                table: "Disponibilidades",
+                name: "IX_Disponibilidad_IdSucursal_IdProducto",
+                table: "Disponibilidad",
                 columns: new[] { "IdSucursal", "IdProducto" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inscripciones_IdCliente_IdDisponibilidad",
-                table: "Inscripciones",
+                name: "IX_Inscripcion_IdCliente_IdDisponibilidad",
+                table: "Inscripcion",
                 columns: new[] { "IdCliente", "IdDisponibilidad" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inscripciones_IdDisponibilidad",
-                table: "Inscripciones",
+                name: "IX_Inscripcion_IdDisponibilidad",
+                table: "Inscripcion",
                 column: "IdDisponibilidad");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inscripciones_ProductoId",
-                table: "Inscripciones",
-                column: "ProductoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Visitas_IdCliente",
-                table: "Visitas",
+                name: "IX_Visita_IdCliente",
+                table: "Visita",
                 column: "IdCliente");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Visitas_IdSucursal_IdCliente",
-                table: "Visitas",
-                columns: new[] { "IdSucursal", "IdCliente" },
-                unique: true);
+                name: "IX_Visita_IdSucursal",
+                table: "Visita",
+                column: "IdSucursal");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Inscripciones");
+                name: "Inscripcion");
 
             migrationBuilder.DropTable(
                 name: "Token");
@@ -227,19 +216,19 @@ namespace ApiBTG.Infrastructure.Migrations
                 name: "Usuario");
 
             migrationBuilder.DropTable(
-                name: "Visitas");
+                name: "Visita");
 
             migrationBuilder.DropTable(
-                name: "Disponibilidades");
+                name: "Disponibilidad");
 
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "Cliente");
 
             migrationBuilder.DropTable(
-                name: "Productos");
+                name: "Producto");
 
             migrationBuilder.DropTable(
-                name: "Sucursales");
+                name: "Sucursal");
         }
     }
 }

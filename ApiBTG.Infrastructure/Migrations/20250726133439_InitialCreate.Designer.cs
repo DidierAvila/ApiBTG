@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiBTG.Infrastructure.Migrations
 {
     [DbContext(typeof(BGTDbContext))]
-    [Migration("20250726114225_SeedDisponibilidades")]
-    partial class SeedDisponibilidades
+    [Migration("20250726133439_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,7 +53,7 @@ namespace ApiBTG.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clientes");
+                    b.ToTable("Cliente");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Disponibilidad", b =>
@@ -80,7 +80,7 @@ namespace ApiBTG.Infrastructure.Migrations
                     b.HasIndex("IdSucursal", "IdProducto")
                         .IsUnique();
 
-                    b.ToTable("Disponibilidades");
+                    b.ToTable("Disponibilidad");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Inscripcion", b =>
@@ -97,19 +97,14 @@ namespace ApiBTG.Infrastructure.Migrations
                     b.Property<int>("IdDisponibilidad")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductoId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IdDisponibilidad");
 
-                    b.HasIndex("ProductoId");
-
                     b.HasIndex("IdCliente", "IdDisponibilidad")
                         .IsUnique();
 
-                    b.ToTable("Inscripciones");
+                    b.ToTable("Inscripcion");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Producto", b =>
@@ -132,7 +127,7 @@ namespace ApiBTG.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Productos");
+                    b.ToTable("Producto");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Sucursal", b =>
@@ -155,7 +150,7 @@ namespace ApiBTG.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sucursales");
+                    b.ToTable("Sucursal");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Token", b =>
@@ -231,7 +226,7 @@ namespace ApiBTG.Infrastructure.Migrations
                     b.ToTable("Usuario");
                 });
 
-            modelBuilder.Entity("ApiBTG.Domain.Entities.Visitan", b =>
+            modelBuilder.Entity("ApiBTG.Domain.Entities.Visita", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -248,14 +243,18 @@ namespace ApiBTG.Infrastructure.Migrations
                     b.Property<int>("IdSucursal")
                         .HasColumnType("int");
 
+                    b.Property<string>("TipoAccion")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IdCliente");
 
-                    b.HasIndex("IdSucursal", "IdCliente")
-                        .IsUnique();
+                    b.HasIndex("IdSucursal");
 
-                    b.ToTable("Visitas");
+                    b.ToTable("Visita");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Disponibilidad", b =>
@@ -291,16 +290,12 @@ namespace ApiBTG.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ApiBTG.Domain.Entities.Producto", null)
-                        .WithMany("Inscripciones")
-                        .HasForeignKey("ProductoId");
-
                     b.Navigation("Cliente");
 
                     b.Navigation("Disponibilidad");
                 });
 
-            modelBuilder.Entity("ApiBTG.Domain.Entities.Visitan", b =>
+            modelBuilder.Entity("ApiBTG.Domain.Entities.Visita", b =>
                 {
                     b.HasOne("ApiBTG.Domain.Entities.Cliente", "Cliente")
                         .WithMany("Visitas")
@@ -329,8 +324,6 @@ namespace ApiBTG.Infrastructure.Migrations
             modelBuilder.Entity("ApiBTG.Domain.Entities.Producto", b =>
                 {
                     b.Navigation("Disponibilidades");
-
-                    b.Navigation("Inscripciones");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Sucursal", b =>

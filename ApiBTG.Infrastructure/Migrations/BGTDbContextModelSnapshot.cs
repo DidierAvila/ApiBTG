@@ -94,14 +94,9 @@ namespace ApiBTG.Infrastructure.Migrations
                     b.Property<int>("IdDisponibilidad")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductoId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IdDisponibilidad");
-
-                    b.HasIndex("ProductoId");
 
                     b.HasIndex("IdCliente", "IdDisponibilidad")
                         .IsUnique();
@@ -292,10 +287,6 @@ namespace ApiBTG.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ApiBTG.Domain.Entities.Producto", null)
-                        .WithMany("Inscripciones")
-                        .HasForeignKey("ProductoId");
-
                     b.Navigation("Cliente");
 
                     b.Navigation("Disponibilidad");
@@ -330,8 +321,6 @@ namespace ApiBTG.Infrastructure.Migrations
             modelBuilder.Entity("ApiBTG.Domain.Entities.Producto", b =>
                 {
                     b.Navigation("Disponibilidades");
-
-                    b.Navigation("Inscripciones");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Sucursal", b =>

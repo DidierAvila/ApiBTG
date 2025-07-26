@@ -10,19 +10,11 @@ namespace ApiBTG.Infrastructure.Repositories
         {
         }
 
-        public async Task<IEnumerable<Producto>> GetProductosWithInscripcionesAsync(CancellationToken cancellationToken)
-        {
-            return await EntitySet
-                .Include(p => p.Inscripciones)
-                .ThenInclude(i => i.Cliente)
-                .ToListAsync(cancellationToken);
-        }
-
         public async Task<IEnumerable<Producto>> GetProductosWithDisponibilidadesAsync(CancellationToken cancellationToken)
         {
             return await EntitySet
                 .Include(p => p.Disponibilidades)
-                .ThenInclude(d => d.Sucursal)
+                    .ThenInclude(d => d.Sucursal)
                 .ToListAsync(cancellationToken);
         }
     }

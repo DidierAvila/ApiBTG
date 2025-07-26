@@ -18,8 +18,7 @@ namespace ApiBTG.Domain.Entities
         [StringLength(255)]
         public string TipoProducto { get; set; } = string.Empty;
         
-        // Navigation properties para las relaciones many-to-many
-        public virtual ICollection<Inscripcion> Inscripciones { get; set; } = new List<Inscripcion>();
+        // Navigation properties
         public virtual ICollection<Disponibilidad> Disponibilidades { get; set; } = new List<Disponibilidad>();
     }
 } 
