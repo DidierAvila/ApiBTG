@@ -5,7 +5,7 @@ namespace ApiBTG.Application.Inscripciones.Commands.CreateInscripcion
 {
     public record CreateInscripcionCommand : IRequest<InscripcionDto>
     {
-        public int IdProducto { get; init; }
         public int IdCliente { get; init; }
+        public int IdDisponibilidad { get; init; }
     }
 } 

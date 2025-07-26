@@ -7,20 +7,20 @@ namespace ApiBTG.Domain.Validator
     {
         public InscripcionValidator()
         {
-            RuleFor(x => x.IdProducto)
-                .GreaterThan(0).WithMessage("El ID del producto debe ser mayor a 0");
-
             RuleFor(x => x.IdCliente)
                 .GreaterThan(0).WithMessage("El ID del cliente debe ser mayor a 0");
 
-            // Validación personalizada para asegurar que el producto y cliente existan
-            RuleFor(x => x.Producto)
-                .NotNull().WithMessage("El producto es obligatorio")
-                .When(x => x.Producto != null);
+            RuleFor(x => x.IdDisponibilidad)
+                .GreaterThan(0).WithMessage("El ID de la disponibilidad debe ser mayor a 0");
 
+            // Validación personalizada para asegurar que el cliente y disponibilidad existan
             RuleFor(x => x.Cliente)
                 .NotNull().WithMessage("El cliente es obligatorio")
                 .When(x => x.Cliente != null);
+
+            RuleFor(x => x.Disponibilidad)
+                .NotNull().WithMessage("La disponibilidad es obligatoria")
+                .When(x => x.Disponibilidad != null);
         }
     }
 } 

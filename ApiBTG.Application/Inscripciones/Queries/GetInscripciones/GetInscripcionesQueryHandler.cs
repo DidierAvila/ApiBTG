@@ -20,8 +20,8 @@ namespace ApiBTG.Application.Inscripciones.Queries.GetInscripciones
             return inscripciones.Select(i => new InscripcionDto
             {
                 Id = i.Id,
-                IdProducto = i.IdProducto,
                 IdCliente = i.IdCliente,
+                IdDisponibilidad = i.IdDisponibilidad,
                 Cliente = new ClienteDto
                 {
                     Id = i.Cliente.Id,
@@ -30,11 +30,24 @@ namespace ApiBTG.Application.Inscripciones.Queries.GetInscripciones
                     Ciudad = i.Cliente.Ciudad,
                     Monto = i.Cliente.Monto
                 },
-                Producto = new ProductoDto
+                Disponibilidad = new DisponibilidadDto
                 {
-                    Id = i.Producto.Id,
-                    Nombre = i.Producto.Nombre,
-                    TipoProducto = i.Producto.TipoProducto
+                    Id = i.Disponibilidad.Id,
+                    IdSucursal = i.Disponibilidad.IdSucursal,
+                    IdProducto = i.Disponibilidad.IdProducto,
+                    MontoMinimo = i.Disponibilidad.MontoMinimo,
+                    Sucursal = new SucursalDto
+                    {
+                        Id = i.Disponibilidad.Sucursal.Id,
+                        Nombre = i.Disponibilidad.Sucursal.Nombre,
+                        Ciudad = i.Disponibilidad.Sucursal.Ciudad
+                    },
+                    Producto = new ProductoDto
+                    {
+                        Id = i.Disponibilidad.Producto.Id,
+                        Nombre = i.Disponibilidad.Producto.Nombre,
+                        TipoProducto = i.Disponibilidad.Producto.TipoProducto
+                    }
                 }
             });
         }

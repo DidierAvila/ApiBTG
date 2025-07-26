@@ -40,29 +40,28 @@ namespace ApiBTG.Controllers
             }
         }
 
-        // GET: api/Inscripcion/5/10
-        [HttpGet("{idProducto}/{idCliente}")]
-        public async Task<ActionResult<ApiResponseDto<InscripcionDto>>> GetInscripcion(int idProducto, int idCliente)
+        // GET: api/Inscripcion/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ApiResponseDto<InscripcionDto>>> GetInscripcion(int id)
         {
             try
             {
                 var query = new GetInscripcionByIdQuery 
                 { 
-                    IdProducto = idProducto, 
-                    IdCliente = idCliente 
+                    Id = id
                 };
                 var inscripcion = await _mediator.Send(query);
 
                 if (inscripcion == null)
                 {
-                    return NotFound(ApiResponseDto<InscripcionDto>.ErrorResult($"Inscripción con Producto ID {idProducto} y Cliente ID {idCliente} no encontrada"));
+                    return NotFound(ApiResponseDto<InscripcionDto>.ErrorResult($"Inscripción con ID {id} no encontrada"));
                 }
 
                 return Ok(ApiResponseDto<InscripcionDto>.SuccessResult(inscripcion, "Inscripción obtenida exitosamente"));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener inscripción con Producto ID {IdProducto} y Cliente ID {IdCliente}", idProducto, idCliente);
+                _logger.LogError(ex, "Error al obtener inscripción con ID {Id}", id);
                 return StatusCode(500, ApiResponseDto<InscripcionDto>.ErrorResult("Error interno del servidor"));
             }
         }
@@ -84,14 +83,14 @@ namespace ApiBTG.Controllers
 
                 var command = new CreateInscripcionCommand
                 {
-                    IdProducto = createInscripcionDto.IdProducto,
-                    IdCliente = createInscripcionDto.IdCliente
+                    IdCliente = createInscripcionDto.IdCliente,
+                    IdDisponibilidad = createInscripcionDto.IdDisponibilidad
                 };
 
                 var inscripcion = await _mediator.Send(command);
 
                 return CreatedAtAction(nameof(GetInscripcion), 
-                    new { idProducto = inscripcion.IdProducto, idCliente = inscripcion.IdCliente },
+                    new { id = inscripcion.Id },
                     ApiResponseDto<InscripcionDto>.SuccessResult(inscripcion, "Inscripción creada exitosamente"));
             }
             catch (KeyNotFoundException ex)
@@ -102,11 +101,6 @@ namespace ApiBTG.Controllers
             {
                 return BadRequest(ApiResponseDto<InscripcionDto>.ErrorResult(ex.Message));
             }
-            //catch (ValidationException ex)
-            //{
-            //    var errors = ex.Errors.Select(e => e.ErrorMessage).ToList();
-            //    return BadRequest(ApiResponseDto<InscripcionDto>.ErrorResult("Error de validación", errors));
-            //}
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al crear inscripción");
@@ -114,9 +108,9 @@ namespace ApiBTG.Controllers
             }
         }
 
-        // PUT: api/Inscripcion/5/10
-        [HttpPut("{idProducto}/{idCliente}")]
-        public async Task<ActionResult<ApiResponseDto<InscripcionDto>>> UpdateInscripcion(int idProducto, int idCliente, UpdateInscripcionDto updateInscripcionDto)
+        // PUT: api/Inscripcion/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ApiResponseDto<InscripcionDto>>> UpdateInscripcion(int id, UpdateInscripcionDto updateInscripcionDto)
         {
             try
             {
@@ -131,10 +125,9 @@ namespace ApiBTG.Controllers
 
                 var command = new UpdateInscripcionCommand
                 {
-                    IdProducto = idProducto,
-                    IdCliente = idCliente,
-                    NewIdProducto = updateInscripcionDto.IdProducto,
-                    NewIdCliente = updateInscripcionDto.IdCliente
+                    Id = id,
+                    IdCliente = updateInscripcionDto.IdCliente,
+                    IdDisponibilidad = updateInscripcionDto.IdDisponibilidad
                 };
 
                 var inscripcion = await _mediator.Send(command);
@@ -152,34 +145,33 @@ namespace ApiBTG.Controllers
             //}
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al actualizar inscripción con Producto ID {IdProducto} y Cliente ID {IdCliente}", idProducto, idCliente);
+                _logger.LogError(ex, "Error al actualizar inscripción con ID {Id}", id);
                 return StatusCode(500, ApiResponseDto<InscripcionDto>.ErrorResult("Error interno del servidor"));
             }
         }
 
-        // DELETE: api/Inscripcion/5/10
-        [HttpDelete("{idProducto}/{idCliente}")]
-        public async Task<ActionResult<ApiResponseDto<bool>>> DeleteInscripcion(int idProducto, int idCliente)
+        // DELETE: api/Inscripcion/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ApiResponseDto<bool>>> DeleteInscripcion(int id)
         {
             try
             {
                 var command = new DeleteInscripcionCommand 
                 { 
-                    IdProducto = idProducto, 
-                    IdCliente = idCliente 
+                    Id = id
                 };
                 var result = await _mediator.Send(command);
 
                 if (!result)
                 {
-                    return NotFound(ApiResponseDto<bool>.ErrorResult($"Inscripción con Producto ID {idProducto} y Cliente ID {idCliente} no encontrada"));
+                    return NotFound(ApiResponseDto<bool>.ErrorResult($"Inscripción con ID {id} no encontrada"));
                 }
 
                 return Ok(ApiResponseDto<bool>.SuccessResult(true, "Inscripción eliminada exitosamente"));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al eliminar inscripción con Producto ID {IdProducto} y Cliente ID {IdCliente}", idProducto, idCliente);
+                _logger.LogError(ex, "Error al eliminar inscripción con ID {Id}", id);
                 return StatusCode(500, ApiResponseDto<bool>.ErrorResult("Error interno del servidor"));
             }
         }

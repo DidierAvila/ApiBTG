@@ -14,7 +14,8 @@ namespace ApiBTG.Infrastructure.Repositories
         {
             return await EntitySet
                 .Include(c => c.Inscripciones)
-                .ThenInclude(i => i.Producto)
+                .ThenInclude(i => i.Disponibilidad)
+                .ThenInclude(d => d.Producto)
                 .ToListAsync(cancellationToken);
         }
 

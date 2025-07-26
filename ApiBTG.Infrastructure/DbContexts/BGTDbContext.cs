@@ -23,6 +23,21 @@ namespace ApiBTG.Infrastructure.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure primary keys using Id property (auto-increment)
+            modelBuilder.Entity<Token>()
+                .HasKey(i => i.Id);
+
+            modelBuilder.Entity<User>()
+                .HasKey(i => i.Id);
+
+            modelBuilder.Entity<Cliente>()
+                .HasKey(i => i.Id);
+
+            modelBuilder.Entity<Producto>()
+                .HasKey(i => i.Id);
+
+            modelBuilder.Entity<Sucursal>()
+                .HasKey(i => i.Id);
+
             modelBuilder.Entity<Inscripcion>()
                 .HasKey(i => i.Id);
 
@@ -34,7 +49,7 @@ namespace ApiBTG.Infrastructure.DbContexts
 
             // Configure unique constraints for business logic
             modelBuilder.Entity<Inscripcion>()
-                .HasIndex(i => new { i.IdProducto, i.IdCliente })
+                .HasIndex(i => new { i.IdCliente, i.IdDisponibilidad })
                 .IsUnique();
 
             modelBuilder.Entity<Disponibilidad>()

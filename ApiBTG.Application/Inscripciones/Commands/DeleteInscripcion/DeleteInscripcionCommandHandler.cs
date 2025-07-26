@@ -7,47 +7,32 @@ namespace ApiBTG.Application.Inscripciones.Commands.DeleteInscripcion
     {
         private readonly IInscripcionRepository _inscripcionRepository;
         private readonly IClienteRepository _clienteRepository;
-        private readonly IDisponibilidadRepository _disponibilidadRepository;
 
         public DeleteInscripcionCommandHandler(
             IInscripcionRepository inscripcionRepository, 
-            IClienteRepository clienteRepository,
-            IDisponibilidadRepository disponibilidadRepository)
+            IClienteRepository clienteRepository)
         {
             _inscripcionRepository = inscripcionRepository;
             _clienteRepository = clienteRepository;
-            _disponibilidadRepository = disponibilidadRepository;
         }
 
         public async Task<bool> Handle(DeleteInscripcionCommand request, CancellationToken cancellationToken)
         {
-            // Para entidades con clave compuesta, necesitamos buscar primero
-            var inscripcion = await _inscripcionRepository.GetInscripcionByIdsAsync(request.IdProducto, request.IdCliente, cancellationToken);
-            
+            var inscripcion = await _inscripcionRepository.GetByID(request.Id, cancellationToken);
             if (inscripcion == null)
-            {
                 return false;
-            }
 
-            // Buscar la disponibilidad del producto para obtener el monto mínimo
-            var disponibilidades = await _disponibilidadRepository.GetDisponibilidadesByProductoAsync(request.IdProducto, cancellationToken);
-            var montoMinimo = disponibilidades.FirstOrDefault()?.MontoMinimo ?? 0m;
-
-            // Eliminar la inscripción
             var result = await _inscripcionRepository.Delete(inscripcion.Id, cancellationToken);
             if (result != null)
             {
-                // Actualizar el monto del cliente
-                var cliente = await _clienteRepository.GetByID(request.IdCliente, cancellationToken);
-                if (cliente != null)
+                var cliente = await _clienteRepository.GetByID(inscripcion.IdCliente, cancellationToken);
+                if (cliente != null && inscripcion.Disponibilidad != null)
                 {
-                    cliente.Monto += montoMinimo; // Reembolsar el monto mínimo
+                    cliente.Monto += inscripcion.Disponibilidad.MontoMinimo;
                     await _clienteRepository.Update(cliente, cancellationToken);
                 }
-
                 return true;
             }
-
             return false;
         }
     }

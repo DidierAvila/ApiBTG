@@ -8,14 +8,14 @@ namespace ApiBTG.Domain.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int IdProducto { get; set; }
         public int IdCliente { get; set; }
+        public int IdDisponibilidad { get; set; }
         
         // Navigation properties
-        [ForeignKey("IdProducto")]
-        public virtual Producto Producto { get; set; } = null!;
-        
         [ForeignKey("IdCliente")]
         public virtual Cliente Cliente { get; set; } = null!;
+        
+        [ForeignKey("IdDisponibilidad")]
+        public virtual Disponibilidad Disponibilidad { get; set; } = null!;
     }
 } 

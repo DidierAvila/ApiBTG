@@ -15,7 +15,7 @@ namespace ApiBTG.Application.Inscripciones.Queries.GetInscripcionById
 
         public async Task<InscripcionDto?> Handle(GetInscripcionByIdQuery request, CancellationToken cancellationToken)
         {
-            var inscripcion = await _inscripcionRepository.GetInscripcionByIdsAsync(request.IdProducto, request.IdCliente, cancellationToken);
+            var inscripcion = await _inscripcionRepository.GetByID(request.Id, cancellationToken);
 
             if (inscripcion == null)
                 return null;
@@ -23,8 +23,8 @@ namespace ApiBTG.Application.Inscripciones.Queries.GetInscripcionById
             return new InscripcionDto
             {
                 Id = inscripcion.Id,
-                IdProducto = inscripcion.IdProducto,
                 IdCliente = inscripcion.IdCliente,
+                IdDisponibilidad = inscripcion.IdDisponibilidad,
                 Cliente = new ClienteDto
                 {
                     Id = inscripcion.Cliente.Id,
@@ -33,11 +33,24 @@ namespace ApiBTG.Application.Inscripciones.Queries.GetInscripcionById
                     Ciudad = inscripcion.Cliente.Ciudad,
                     Monto = inscripcion.Cliente.Monto
                 },
-                Producto = new ProductoDto
+                Disponibilidad = new DisponibilidadDto
                 {
-                    Id = inscripcion.Producto.Id,
-                    Nombre = inscripcion.Producto.Nombre,
-                    TipoProducto = inscripcion.Producto.TipoProducto
+                    Id = inscripcion.Disponibilidad.Id,
+                    IdSucursal = inscripcion.Disponibilidad.IdSucursal,
+                    IdProducto = inscripcion.Disponibilidad.IdProducto,
+                    MontoMinimo = inscripcion.Disponibilidad.MontoMinimo,
+                    Sucursal = new SucursalDto
+                    {
+                        Id = inscripcion.Disponibilidad.Sucursal.Id,
+                        Nombre = inscripcion.Disponibilidad.Sucursal.Nombre,
+                        Ciudad = inscripcion.Disponibilidad.Sucursal.Ciudad
+                    },
+                    Producto = new ProductoDto
+                    {
+                        Id = inscripcion.Disponibilidad.Producto.Id,
+                        Nombre = inscripcion.Disponibilidad.Producto.Nombre,
+                        TipoProducto = inscripcion.Disponibilidad.Producto.TipoProducto
+                    }
                 }
             };
         }

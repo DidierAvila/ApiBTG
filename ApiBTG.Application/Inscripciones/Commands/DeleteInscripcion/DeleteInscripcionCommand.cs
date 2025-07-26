@@ -2,9 +2,8 @@ using MediatR;
 
 namespace ApiBTG.Application.Inscripciones.Commands.DeleteInscripcion
 {
-    public record DeleteInscripcionCommand : IRequest<bool>
+    public class DeleteInscripcionCommand : IRequest<bool>
     {
-        public int IdProducto { get; init; }
-        public int IdCliente { get; init; }
+        public int Id { get; set; }
     }
 } 
