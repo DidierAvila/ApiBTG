@@ -1,5 +1,6 @@
 ﻿using ApiBTG.Application.Common.Interfaces;
 using ApiBTG.Application.Users;
+using ApiBTG.Domain.Enums;
 using ApiBTG.Infrastructure.Repositories;
 using MediatR;
 
@@ -38,13 +39,16 @@ namespace ApiBTG.Application.Notificaciones
                     return "Disponibilidad no encontrada";
                 }
                 disponibilidad = await _disponibilidadRepository.GetDisponibilidadByIdsAsync(disponibilidad.IdProducto, disponibilidad.IdSucursal, cancellationToken);
-                if (user.NotificacionPreferida == "SMS" && !string.IsNullOrEmpty(user.Telefono))
-                {
-                    await _smsNotificationService.SendAsync(user.Telefono, "Inscripción exitosa", $"Te has suscrito al fondo {disponibilidad!.Producto!.Nombre} en la sucursal {disponibilidad!.Sucursal!.Nombre}");
-                }
-                else if (!string.IsNullOrEmpty(user.Email))
+                
+                // Temporalmente usar solo email hasta resolver el problema con Twilio
+                if (user.NotificacionPreferida == NotificacionPreferida.Email.ToString() && !string.IsNullOrEmpty(user.Email))
                 {
                     await _emailNotificationService.SendAsync(user.Email, "Inscripción exitosa", $"Te has suscrito al fondo {disponibilidad!.Producto!.Nombre} en la sucursal {disponibilidad!.Sucursal!.Nombre}");
+                }
+                else if (user.NotificacionPreferida == NotificacionPreferida.SMS.ToString() && !string.IsNullOrEmpty(user.Telefono))
+                {
+                    // Enviar SMS solo si la preferencia es SMS y el teléfono está disponible
+                    await _smsNotificationService.SendAsync(user.Telefono, "Inscripción exitosa", $"Te has suscrito al fondo {disponibilidad!.Producto!.Nombre} en la sucursal {disponibilidad!.Sucursal!.Nombre}");
                 }
             }
             return result;

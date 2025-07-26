@@ -3,6 +3,7 @@ using ApiBTG.Application.Clientes.Commands.DeleteCliente;
 using ApiBTG.Application.Clientes.Commands.UpdateCliente;
 using ApiBTG.Application.Clientes.Queries.GetClienteById;
 using ApiBTG.Application.Clientes.Queries.GetClientes;
+using ApiBTG.Application.Clientes.Queries.GetClientesConInscripcionesEnSucursalesVisitadas;
 using ApiBTG.Domain.Dtos;
 using FluentValidation;
 using MediatR;
@@ -62,6 +63,22 @@ namespace ApiBTG.Controllers
                 _logger.LogError(ex, "Error al obtener cliente con ID {Id}", id);
                 return StatusCode(500, ApiResponseDto<ClienteDto>.ErrorResult("Error interno del servidor"));
             }
+        }
+
+        // GET: api/Cliente/con-inscripciones-en-sucursales-visitadas
+        [HttpGet("sucursales-visitadas")]
+        public async Task<IActionResult> GetClientesConInscripcionesEnSucursalesVisitadas(
+            [FromQuery] int? clienteId = null,
+            [FromQuery] int? sucursalId = null)
+        {
+            var query = new GetClientesConInscripcionesEnSucursalesVisitadasQuery
+            {
+                ClienteId = clienteId,
+                SucursalId = sucursalId
+            };
+
+            var resultado = await _mediator.Send(query);
+            return Ok(resultado);
         }
 
         // POST: api/Cliente
