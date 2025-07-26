@@ -4,6 +4,7 @@ using ApiBTG.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiBTG.Infrastructure.Migrations
 {
     [DbContext(typeof(BGTDbContext))]
-    partial class BGTDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250726155653_AddNotificacionPreferidaToUser")]
+    partial class AddNotificacionPreferidaToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,12 +51,7 @@ namespace ApiBTG.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Cliente");
                 });
@@ -266,15 +264,6 @@ namespace ApiBTG.Infrastructure.Migrations
                     b.HasIndex("IdSucursal");
 
                     b.ToTable("Visita");
-                });
-
-            modelBuilder.Entity("ApiBTG.Domain.Entities.Cliente", b =>
-                {
-                    b.HasOne("ApiBTG.Domain.Entities.User", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId");
-
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Disponibilidad", b =>

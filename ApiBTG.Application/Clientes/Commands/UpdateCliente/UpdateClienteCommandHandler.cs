@@ -26,6 +26,7 @@ namespace ApiBTG.Application.Clientes.Commands.UpdateCliente
             cliente.Apellidos = request.Apellidos;
             cliente.Ciudad = request.Ciudad;
             cliente.Monto = request.Monto;
+            cliente.UsuarioId = request.UsuarioId;
 
             await _clienteRepository.Update(cliente, cancellationToken);
 

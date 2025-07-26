@@ -26,8 +26,15 @@ namespace ApiBTG.Domain.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal Monto { get; set; }
         
+        // Relación con Usuario
+        public int? UsuarioId { get; set; }
+        
         // Navigation properties para las relaciones many-to-many
         public virtual ICollection<Inscripcion> Inscripciones { get; set; } = new List<Inscripcion>();
         public virtual ICollection<Visita> Visitas { get; set; } = new List<Visita>();
+        
+        // Navigation property para la relación con User
+        [ForeignKey("UsuarioId")]
+        public virtual User? Usuario { get; set; }
     }
 } 

@@ -21,7 +21,8 @@ namespace ApiBTG.Application.Clientes.Commands.CreateCliente
                 Nombre = request.Nombre,
                 Apellidos = request.Apellidos,
                 Ciudad = request.Ciudad,
-                Monto = request.Monto
+                Monto = request.Monto,
+                UsuarioId = request.UsuarioId
             };
 
             // Regla de negocio: Validar que el monto inicial de COP $500.000.

@@ -25,5 +25,11 @@ namespace ApiBTG.Domain.Entities
 
         [Column(name: "Rol", TypeName = "Varchar (255)")]
         public required string Role { get; set; }
+
+        [Column(name: "NotificacionPreferida", TypeName = "Varchar (10)")]
+        public string NotificacionPreferida { get; set; } = "Email"; // "Email" o "SMS"
+
+        [Column(name: "Telefono", TypeName = "Varchar (20)")]
+        public string? Telefono { get; set; }
     }
 }

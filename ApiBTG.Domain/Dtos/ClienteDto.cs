@@ -10,6 +10,7 @@ namespace ApiBTG.Domain.Dtos
         public string Apellidos { get; set; } = string.Empty;
         public string Ciudad { get; set; } = string.Empty;
         public decimal Monto { get; set; }
+        public int? UsuarioId { get; set; }
     }
 
     // DTO para crear un nuevo cliente
@@ -30,6 +31,8 @@ namespace ApiBTG.Domain.Dtos
         [Required(ErrorMessage = "El monto es obligatorio")]
         [Range(0.01, double.MaxValue, ErrorMessage = "El monto debe ser mayor a 0")]
         public decimal Monto { get; set; }
+        
+        public int? UsuarioId { get; set; }
     }
 
     // DTO para actualizar un cliente existente
@@ -50,5 +53,7 @@ namespace ApiBTG.Domain.Dtos
         [Required(ErrorMessage = "El monto es obligatorio")]
         [Range(0.01, double.MaxValue, ErrorMessage = "El monto debe ser mayor a 0")]
         public decimal Monto { get; set; }
+        
+        public int? UsuarioId { get; set; }
     }
 } 

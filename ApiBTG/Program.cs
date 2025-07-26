@@ -1,5 +1,6 @@
 using System.Text;
 using ApiBTG.Application.Common.Behaviors;
+using ApiBTG.Application.Common.Interfaces;
 using ApiBTG.Extenciones;
 using ApiBTG.Infrastructure.DbContexts;
 using MediatR;
@@ -73,6 +74,10 @@ builder.Services.AddAuthentication(config =>
 
 // Configure Pipeline Behaviors
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+// Configure Notification Services
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.Configure<TwilioSettings>(builder.Configuration.GetSection("Twilio"));
 
 var app = builder.Build();
 

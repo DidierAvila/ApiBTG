@@ -2,8 +2,10 @@
 using ApiBTG.Application.Security;
 using ApiBTG.Application.Users;
 using ApiBTG.Application.Visitas.Queries.GetVisitas;
+using ApiBTG.Application.Common.Interfaces;
 using ApiBTG.Domain.Entities;
 using ApiBTG.Infrastructure.Repositories;
+using ApiBTG.Application.Notificaciones;
 
 namespace ApiBTG.Extenciones
 {
@@ -26,6 +28,12 @@ namespace ApiBTG.Extenciones
             services.AddScoped<IInscripcionRepository, InscripcionRepository>();
             services.AddScoped<IDisponibilidadRepository, DisponibilidadRepository>();
             services.AddScoped<IVisitaRepository, VisitaRepository>();
+
+            // Register Notification Services
+            services.AddScoped<EmailNotificationService>();
+            services.AddScoped<SmsNotificationService>();
+            services.AddScoped<NotificacionCommandHandler>();
+            
 
             return services;
         }

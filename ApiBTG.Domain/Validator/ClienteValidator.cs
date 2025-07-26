@@ -25,6 +25,7 @@ namespace ApiBTG.Domain.Validator
             RuleFor(x => x.Monto)
                 .GreaterThan(0).WithMessage("El monto debe ser mayor a 0")
                 .LessThanOrEqualTo(999999999.99m).WithMessage("El monto no puede exceder 999,999,999.99");
+            RuleFor(x => x.UsuarioId).GreaterThan(0).When(x => x.UsuarioId.HasValue);
         }
     }
 } 

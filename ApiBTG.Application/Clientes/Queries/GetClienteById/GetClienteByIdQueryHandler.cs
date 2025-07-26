@@ -26,7 +26,8 @@ namespace ApiBTG.Application.Clientes.Queries.GetClienteById
                 Nombre = cliente.Nombre,
                 Apellidos = cliente.Apellidos,
                 Ciudad = cliente.Ciudad,
-                Monto = cliente.Monto
+                Monto = cliente.Monto,
+                UsuarioId = cliente.UsuarioId
             };
         }
     }

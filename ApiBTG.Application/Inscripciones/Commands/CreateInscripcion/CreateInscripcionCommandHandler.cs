@@ -1,3 +1,5 @@
+using ApiBTG.Application.Notificaciones;
+using ApiBTG.Application.Users;
 using ApiBTG.Domain.Dtos;
 using ApiBTG.Domain.Entities;
 using ApiBTG.Infrastructure.Repositories;
@@ -11,18 +13,21 @@ namespace ApiBTG.Application.Inscripciones.Commands.CreateInscripcion
         private readonly IClienteRepository _clienteRepository;
         private readonly IDisponibilidadRepository _disponibilidadRepository;
         private readonly IVisitaRepository _visitaRepository;
+        private readonly IMediator _mediator;
 
         public CreateInscripcionCommandHandler(
             IInscripcionRepository inscripcionRepository,
             IClienteRepository clienteRepository,
             IDisponibilidadRepository disponibilidadRepository,
-            IVisitaRepository visitaRepository)
+            IVisitaRepository visitaRepository,
+            IUserService userService,
+            IMediator mediator)
         {
             _inscripcionRepository = inscripcionRepository;
             _clienteRepository = clienteRepository;
             _disponibilidadRepository = disponibilidadRepository;
             _visitaRepository = visitaRepository;
-
+            _mediator = mediator;
         }
 
         public async Task<InscripcionSimpleDto> Handle(CreateInscripcionCommand request, CancellationToken cancellationToken)
@@ -67,6 +72,14 @@ namespace ApiBTG.Application.Inscripciones.Commands.CreateInscripcion
             // Actualizar el monto del cliente
             cliente.Monto -= disponibilidad.MontoMinimo;
             await _clienteRepository.Update(cliente, cancellationToken);
+
+            // Envio de notificación
+            var notificacionCommand = new NotificacionCommand
+            {
+                UsuarioId = cliente.UsuarioId ?? 0,
+                DisponibilidadId = disponibilidad.Id
+            };
+            var result = await _mediator.Send(notificacionCommand, cancellationToken);
 
             return new InscripcionSimpleDto
             {

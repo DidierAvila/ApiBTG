@@ -17,14 +17,15 @@ namespace ApiBTG.Application.Clientes.Queries.GetClientes
         {
             var clientes = await _clienteRepository.GetAll(cancellationToken);
 
-            return clientes.Select(c => new ClienteDto
+            return clientes.Select(cliente => new ClienteDto
             {
-                Id = c.Id,
-                Nombre = c.Nombre,
-                Apellidos = c.Apellidos,
-                Ciudad = c.Ciudad,
-                Monto = c.Monto
-            });
+                Id = cliente.Id,
+                Nombre = cliente.Nombre,
+                Apellidos = cliente.Apellidos,
+                Ciudad = cliente.Ciudad,
+                Monto = cliente.Monto,
+                UsuarioId = cliente.UsuarioId
+            }).ToList();
         }
     }
 } 
