@@ -91,7 +91,7 @@ namespace ApiBTG.Controllers
 
                 return CreatedAtAction(nameof(GetInscripcion), 
                     new { id = inscripcion.Id },
-                    ApiResponseDto<InscripcionDto>.SuccessResult(inscripcion, "Inscripción creada exitosamente"));
+                    ApiResponseDto<InscripcionSimpleDto>.SuccessResult(inscripcion, "Inscripción creada exitosamente"));
             }
             catch (KeyNotFoundException ex)
             {

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiBTG.Domain.Entities
 {
+    [Table(name: "Sucursal")]
     public class Sucursal
     {
         [Key]
@@ -19,6 +20,6 @@ namespace ApiBTG.Domain.Entities
         
         // Navigation properties para las relaciones many-to-many
         public virtual ICollection<Disponibilidad> Disponibilidades { get; set; } = new List<Disponibilidad>();
-        public virtual ICollection<Visitan> Visitas { get; set; } = new List<Visitan>();
+        public virtual ICollection<Visita> Visitas { get; set; } = new List<Visita>();
     }
 } 

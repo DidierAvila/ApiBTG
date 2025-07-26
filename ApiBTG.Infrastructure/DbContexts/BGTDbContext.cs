@@ -16,7 +16,7 @@ namespace ApiBTG.Infrastructure.DbContexts
         public virtual DbSet<Sucursal> Sucursales { get; set; }
         public virtual DbSet<Inscripcion> Inscripciones { get; set; }
         public virtual DbSet<Disponibilidad> Disponibilidades { get; set; }
-        public virtual DbSet<Visitan> Visitas { get; set; }
+        public virtual DbSet<Visita> Visitas { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
         
@@ -44,8 +44,13 @@ namespace ApiBTG.Infrastructure.DbContexts
             modelBuilder.Entity<Disponibilidad>()
                 .HasKey(d => d.Id);
 
-            modelBuilder.Entity<Visitan>()
+            modelBuilder.Entity<Visita>()
                 .HasKey(v => v.Id);
+
+            modelBuilder.Entity<Visita>()
+                .Property(v => v.TipoAccion)
+                .HasMaxLength(50)
+                .IsRequired();
 
             // Configure unique constraints for business logic
             modelBuilder.Entity<Inscripcion>()
@@ -54,10 +59,6 @@ namespace ApiBTG.Infrastructure.DbContexts
 
             modelBuilder.Entity<Disponibilidad>()
                 .HasIndex(d => new { d.IdSucursal, d.IdProducto })
-                .IsUnique();
-
-            modelBuilder.Entity<Visitan>()
-                .HasIndex(v => new { v.IdSucursal, v.IdCliente })
                 .IsUnique();
 
             OnModelCreatingPartial(modelBuilder);

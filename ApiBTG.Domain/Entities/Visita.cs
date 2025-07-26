@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiBTG.Domain.Entities
 {
-    public class Visitan
+    [Table(name: "Visita")]
+    public class Visita
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -13,6 +14,10 @@ namespace ApiBTG.Domain.Entities
         
         [Required]
         public DateTime FechaVisita { get; set; }
+        
+        [Required]
+        [StringLength(50)]
+        public string TipoAccion { get; set; } = string.Empty;
         
         // Navigation properties
         [ForeignKey("IdSucursal")]

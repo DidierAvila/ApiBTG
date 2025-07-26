@@ -10,5 +10,6 @@ namespace ApiBTG.Application.Visitas.Commands.UpdateVisita
         public int NewIdSucursal { get; init; }
         public int NewIdCliente { get; init; }
         public DateTime FechaVisita { get; init; }
+        public string TipoAccion { get; init; }
     }
 } 

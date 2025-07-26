@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiBTG.Infrastructure.Migrations
 {
     [DbContext(typeof(BGTDbContext))]
-    [Migration("20250726072320_RenameIdProductoToIdDisponibilidad")]
-    partial class RenameIdProductoToIdDisponibilidad
+    [Migration("20250726111904_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

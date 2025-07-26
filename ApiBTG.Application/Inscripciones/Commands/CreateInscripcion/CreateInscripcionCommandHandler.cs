@@ -5,23 +5,27 @@ using MediatR;
 
 namespace ApiBTG.Application.Inscripciones.Commands.CreateInscripcion
 {
-    public class CreateInscripcionCommandHandler : IRequestHandler<CreateInscripcionCommand, InscripcionDto>
+    public class CreateInscripcionCommandHandler : IRequestHandler<CreateInscripcionCommand, InscripcionSimpleDto>
     {
         private readonly IInscripcionRepository _inscripcionRepository;
         private readonly IClienteRepository _clienteRepository;
         private readonly IDisponibilidadRepository _disponibilidadRepository;
+        private readonly IVisitaRepository _visitaRepository;
 
         public CreateInscripcionCommandHandler(
             IInscripcionRepository inscripcionRepository,
             IClienteRepository clienteRepository,
-            IDisponibilidadRepository disponibilidadRepository)
+            IDisponibilidadRepository disponibilidadRepository,
+            IVisitaRepository visitaRepository)
         {
             _inscripcionRepository = inscripcionRepository;
             _clienteRepository = clienteRepository;
             _disponibilidadRepository = disponibilidadRepository;
+            _visitaRepository = visitaRepository;
+
         }
 
-        public async Task<InscripcionDto> Handle(CreateInscripcionCommand request, CancellationToken cancellationToken)
+        public async Task<InscripcionSimpleDto> Handle(CreateInscripcionCommand request, CancellationToken cancellationToken)
         {
             // Verificar que el cliente existe
             var cliente = await _clienteRepository.GetByID(request.IdCliente, cancellationToken);
@@ -50,42 +54,25 @@ namespace ApiBTG.Application.Inscripciones.Commands.CreateInscripcion
 
             var createdInscripcion = await _inscripcionRepository.Create(inscripcion, cancellationToken);
 
+            // Registrar la inscripción en el historial de transacciones
+            var visita = new Visita
+            {
+                IdSucursal = disponibilidad.IdSucursal,
+                IdCliente = request.IdCliente,
+                FechaVisita = DateTime.UtcNow,
+                TipoAccion = "Apertura",
+            };
+            await _visitaRepository.Create(visita, cancellationToken);
+
             // Actualizar el monto del cliente
             cliente.Monto -= disponibilidad.MontoMinimo;
             await _clienteRepository.Update(cliente, cancellationToken);
 
-            return new InscripcionDto
+            return new InscripcionSimpleDto
             {
                 Id = createdInscripcion.Id,
                 IdCliente = createdInscripcion.IdCliente,
-                IdDisponibilidad = createdInscripcion.IdDisponibilidad,
-                Cliente = new ClienteDto
-                {
-                    Id = cliente.Id,
-                    Nombre = cliente.Nombre,
-                    Apellidos = cliente.Apellidos,
-                    Ciudad = cliente.Ciudad,
-                    Monto = cliente.Monto
-                },
-                Disponibilidad = new DisponibilidadDto
-                {
-                    Id = disponibilidad.Id,
-                    IdSucursal = disponibilidad.IdSucursal,
-                    IdProducto = disponibilidad.IdProducto,
-                    MontoMinimo = disponibilidad.MontoMinimo,
-                    Sucursal = new SucursalDto
-                    {
-                        Id = disponibilidad.Sucursal.Id,
-                        Nombre = disponibilidad.Sucursal.Nombre,
-                        Ciudad = disponibilidad.Sucursal.Ciudad
-                    },
-                    Producto = new ProductoDto
-                    {
-                        Id = disponibilidad.Producto.Id,
-                        Nombre = disponibilidad.Producto.Nombre,
-                        TipoProducto = disponibilidad.Producto.TipoProducto
-                    }
-                }
+                IdDisponibilidad = createdInscripcion.IdDisponibilidad, 
             };
         }
     }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiBTG.Infrastructure.Migrations
 {
     [DbContext(typeof(BGTDbContext))]
-    [Migration("20250726072404_RemoveProductoIdColumn")]
-    partial class RemoveProductoIdColumn
+    [Migration("20250726113303_SeedProductos")]
+    partial class SeedProductos
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

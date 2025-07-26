@@ -44,11 +44,12 @@ namespace ApiBTG.Application.Visitas.Commands.CreateVisita
                 throw new InvalidOperationException($"Ya existe una visita para la sucursal {request.IdSucursal} y el cliente {request.IdCliente}");
             }
 
-            var visita = new Visitan
+            var visita = new Visita
             {
                 IdSucursal = request.IdSucursal,
                 IdCliente = request.IdCliente,
-                FechaVisita = request.FechaVisita
+                FechaVisita = request.FechaVisita,
+                TipoAccion = request.TipoAccion
             };
 
             var createdVisita = await _visitaRepository.Create(visita, cancellationToken);
@@ -59,6 +60,7 @@ namespace ApiBTG.Application.Visitas.Commands.CreateVisita
                 IdSucursal = createdVisita.IdSucursal,
                 IdCliente = createdVisita.IdCliente,
                 FechaVisita = createdVisita.FechaVisita,
+                TipoAccion = createdVisita.TipoAccion,
                 Sucursal = new SucursalDto
                 {
                     Id = sucursal.Id,

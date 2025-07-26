@@ -36,7 +36,7 @@ namespace ApiBTG.Domain.Validator
         /// <summary>
         /// Obtiene el validador para la entidad Visitan
         /// </summary>
-        public static IValidator<Visitan> VisitanValidator => new VisitanValidator();
+        public static IValidator<Visita> VisitanValidator => new VisitanValidator();
 
         /// <summary>
         /// Obtiene el validador para la entidad User

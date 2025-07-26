@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiBTG.Domain.Entities
 {
+    [Table(name: "Producto")]
     public class Producto
     {
         [Key]

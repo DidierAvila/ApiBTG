@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiBTG.Infrastructure.Repositories
 {
-    public class VisitaRepository : RepositoryBase<Visitan>, IVisitaRepository
+    public class VisitaRepository : RepositoryBase<Visita>, IVisitaRepository
     {
         public VisitaRepository(BGTDbContext context) : base(context)
         {
         }
 
-        public async Task<IEnumerable<Visitan>> GetVisitasWithDetailsAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Visita>> GetVisitasWithDetailsAsync(CancellationToken cancellationToken)
         {
             return await EntitySet
                 .Include(v => v.Sucursal)
@@ -18,7 +18,7 @@ namespace ApiBTG.Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<Visitan?> GetVisitaByIdsAsync(int idSucursal, int idCliente, CancellationToken cancellationToken)
+        public async Task<Visita?> GetVisitaByIdsAsync(int idSucursal, int idCliente, CancellationToken cancellationToken)
         {
             return await EntitySet
                 .Include(v => v.Sucursal)

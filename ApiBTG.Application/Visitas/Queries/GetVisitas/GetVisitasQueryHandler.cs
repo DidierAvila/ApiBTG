@@ -23,6 +23,7 @@ namespace ApiBTG.Application.Visitas.Queries.GetVisitas
                 IdSucursal = v.IdSucursal,
                 IdCliente = v.IdCliente,
                 FechaVisita = v.FechaVisita,
+                TipoAccion = v.TipoAccion,
                 Sucursal = new SucursalDto
                 {
                     Id = v.Sucursal.Id,

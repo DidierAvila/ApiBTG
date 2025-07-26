@@ -12,18 +12,19 @@ namespace ApiBTG.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Cliente",
+                name: "Clientes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Apellidos = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Ciudad = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                    Ciudad = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cliente", x => x.Id);
+                    table.PrimaryKey("PK_Clientes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,39 +90,18 @@ namespace ApiBTG.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Inscripciones",
-                columns: table => new
-                {
-                    IdProducto = table.Column<int>(type: "int", nullable: false),
-                    IdCliente = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Inscripciones", x => new { x.IdProducto, x.IdCliente });
-                    table.ForeignKey(
-                        name: "FK_Inscripciones_Cliente_IdCliente",
-                        column: x => x.IdCliente,
-                        principalTable: "Cliente",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Inscripciones_Productos_IdProducto",
-                        column: x => x.IdProducto,
-                        principalTable: "Productos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Disponibilidades",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IdSucursal = table.Column<int>(type: "int", nullable: false),
-                    IdProducto = table.Column<int>(type: "int", nullable: false)
+                    IdProducto = table.Column<int>(type: "int", nullable: false),
+                    MontoMinimo = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Disponibilidades", x => new { x.IdSucursal, x.IdProducto });
+                    table.PrimaryKey("PK_Disponibilidades", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Disponibilidades_Productos_IdProducto",
                         column: x => x.IdProducto,
@@ -140,17 +120,19 @@ namespace ApiBTG.Infrastructure.Migrations
                 name: "Visitas",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IdSucursal = table.Column<int>(type: "int", nullable: false),
                     IdCliente = table.Column<int>(type: "int", nullable: false),
                     FechaVisita = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Visitas", x => new { x.IdSucursal, x.IdCliente });
+                    table.PrimaryKey("PK_Visitas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Visitas_Cliente_IdCliente",
+                        name: "FK_Visitas_Clientes_IdCliente",
                         column: x => x.IdCliente,
-                        principalTable: "Cliente",
+                        principalTable: "Clientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -161,28 +143,80 @@ namespace ApiBTG.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Inscripciones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdCliente = table.Column<int>(type: "int", nullable: false),
+                    IdDisponibilidad = table.Column<int>(type: "int", nullable: false),
+                    ProductoId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Inscripciones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Inscripciones_Clientes_IdCliente",
+                        column: x => x.IdCliente,
+                        principalTable: "Clientes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Inscripciones_Disponibilidades_IdDisponibilidad",
+                        column: x => x.IdDisponibilidad,
+                        principalTable: "Disponibilidades",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Inscripciones_Productos_ProductoId",
+                        column: x => x.ProductoId,
+                        principalTable: "Productos",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Disponibilidades_IdProducto",
                 table: "Disponibilidades",
                 column: "IdProducto");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inscripciones_IdCliente",
+                name: "IX_Disponibilidades_IdSucursal_IdProducto",
+                table: "Disponibilidades",
+                columns: new[] { "IdSucursal", "IdProducto" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inscripciones_IdCliente_IdDisponibilidad",
                 table: "Inscripciones",
-                column: "IdCliente");
+                columns: new[] { "IdCliente", "IdDisponibilidad" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inscripciones_IdDisponibilidad",
+                table: "Inscripciones",
+                column: "IdDisponibilidad");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inscripciones_ProductoId",
+                table: "Inscripciones",
+                column: "ProductoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Visitas_IdCliente",
                 table: "Visitas",
                 column: "IdCliente");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Visitas_IdSucursal_IdCliente",
+                table: "Visitas",
+                columns: new[] { "IdSucursal", "IdCliente" },
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Disponibilidades");
-
             migrationBuilder.DropTable(
                 name: "Inscripciones");
 
@@ -196,10 +230,13 @@ namespace ApiBTG.Infrastructure.Migrations
                 name: "Visitas");
 
             migrationBuilder.DropTable(
-                name: "Productos");
+                name: "Disponibilidades");
 
             migrationBuilder.DropTable(
-                name: "Cliente");
+                name: "Clientes");
+
+            migrationBuilder.DropTable(
+                name: "Productos");
 
             migrationBuilder.DropTable(
                 name: "Sucursales");

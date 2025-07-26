@@ -9,6 +9,7 @@ namespace ApiBTG.Domain.Dtos
         public int IdSucursal { get; set; }
         public int IdCliente { get; set; }
         public DateTime FechaVisita { get; set; }
+        public string TipoAccion { get; set; } = string.Empty;
         public SucursalDto Sucursal { get; set; } = null!;
         public ClienteDto Cliente { get; set; } = null!;
     }
@@ -20,6 +21,7 @@ namespace ApiBTG.Domain.Dtos
         public int IdSucursal { get; set; }
         public int IdCliente { get; set; }
         public DateTime FechaVisita { get; set; }
+        public string TipoAccion { get; set; } = string.Empty;
     }
 
     // DTO para crear una nueva visita
@@ -33,6 +35,10 @@ namespace ApiBTG.Domain.Dtos
 
         [Required(ErrorMessage = "La fecha de visita es obligatoria")]
         public DateTime FechaVisita { get; set; }
+
+        [Required(ErrorMessage = "El tipo de acción es obligatorio")]
+        [StringLength(50, ErrorMessage = "El tipo de acción no puede exceder 50 caracteres")]
+        public string TipoAccion { get; set; } = string.Empty;
     }
 
     // DTO para actualizar una visita existente
@@ -49,5 +55,9 @@ namespace ApiBTG.Domain.Dtos
 
         [Required(ErrorMessage = "La fecha de visita es obligatoria")]
         public DateTime FechaVisita { get; set; }
+
+        [Required(ErrorMessage = "El tipo de acción es obligatorio")]
+        [StringLength(50, ErrorMessage = "El tipo de acción no puede exceder 50 caracteres")]
+        public string TipoAccion { get; set; } = string.Empty;
     }
 } 

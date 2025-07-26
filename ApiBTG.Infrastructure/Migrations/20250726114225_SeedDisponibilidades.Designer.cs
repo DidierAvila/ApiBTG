@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiBTG.Infrastructure.Migrations
 {
     [DbContext(typeof(BGTDbContext))]
-    [Migration("20250726061052_MoveMontoMinimoToDisponibilidad")]
-    partial class MoveMontoMinimoToDisponibilidad
+    [Migration("20250726114225_SeedDisponibilidades")]
+    partial class SeedDisponibilidades
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,14 +94,19 @@ namespace ApiBTG.Infrastructure.Migrations
                     b.Property<int>("IdCliente")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdProducto")
+                    b.Property<int>("IdDisponibilidad")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdCliente");
+                    b.HasIndex("IdDisponibilidad");
 
-                    b.HasIndex("IdProducto", "IdCliente")
+                    b.HasIndex("ProductoId");
+
+                    b.HasIndex("IdCliente", "IdDisponibilidad")
                         .IsUnique();
 
                     b.ToTable("Inscripciones");
@@ -280,15 +285,19 @@ namespace ApiBTG.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ApiBTG.Domain.Entities.Producto", "Producto")
-                        .WithMany("Inscripciones")
-                        .HasForeignKey("IdProducto")
+                    b.HasOne("ApiBTG.Domain.Entities.Disponibilidad", "Disponibilidad")
+                        .WithMany()
+                        .HasForeignKey("IdDisponibilidad")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ApiBTG.Domain.Entities.Producto", null)
+                        .WithMany("Inscripciones")
+                        .HasForeignKey("ProductoId");
+
                     b.Navigation("Cliente");
 
-                    b.Navigation("Producto");
+                    b.Navigation("Disponibilidad");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Visitan", b =>

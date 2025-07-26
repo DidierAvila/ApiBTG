@@ -23,6 +23,7 @@ namespace ApiBTG.Application.Visitas.Commands.UpdateVisita
             }
 
             visita.FechaVisita = request.FechaVisita;
+            visita.TipoAccion = request.TipoAccion;
 
             await _visitaRepository.Update(visita, cancellationToken);
 
@@ -32,6 +33,7 @@ namespace ApiBTG.Application.Visitas.Commands.UpdateVisita
                 IdSucursal = visita.IdSucursal,
                 IdCliente = visita.IdCliente,
                 FechaVisita = visita.FechaVisita,
+                TipoAccion = visita.TipoAccion,
                 Sucursal = new SucursalDto
                 {
                     Id = visita.Sucursal.Id,

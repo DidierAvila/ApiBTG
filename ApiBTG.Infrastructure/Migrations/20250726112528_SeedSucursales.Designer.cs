@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiBTG.Infrastructure.Migrations
 {
     [DbContext(typeof(BGTDbContext))]
-    [Migration("20250726011706_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250726112528_SeedSucursales")]
+    partial class SeedSucursales
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,9 @@ namespace ApiBTG.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<decimal>("Monto")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -50,35 +53,61 @@ namespace ApiBTG.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cliente");
+                    b.ToTable("Clientes");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Disponibilidad", b =>
                 {
-                    b.Property<int>("IdSucursal")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("IdProducto")
                         .HasColumnType("int");
 
-                    b.HasKey("IdSucursal", "IdProducto");
+                    b.Property<int>("IdSucursal")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("MontoMinimo")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("IdProducto");
+
+                    b.HasIndex("IdSucursal", "IdProducto")
+                        .IsUnique();
 
                     b.ToTable("Disponibilidades");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Inscripcion", b =>
                 {
-                    b.Property<int>("IdProducto")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("IdCliente")
                         .HasColumnType("int");
 
-                    b.HasKey("IdProducto", "IdCliente");
+                    b.Property<int>("IdDisponibilidad")
+                        .HasColumnType("int");
 
-                    b.HasIndex("IdCliente");
+                    b.Property<int?>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdDisponibilidad");
+
+                    b.HasIndex("ProductoId");
+
+                    b.HasIndex("IdCliente", "IdDisponibilidad")
+                        .IsUnique();
 
                     b.ToTable("Inscripciones");
                 });
@@ -204,18 +233,27 @@ namespace ApiBTG.Infrastructure.Migrations
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Visitan", b =>
                 {
-                    b.Property<int>("IdSucursal")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("IdCliente")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("FechaVisita")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("IdSucursal", "IdCliente");
+                    b.Property<int>("IdCliente")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdSucursal")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("IdCliente");
+
+                    b.HasIndex("IdSucursal", "IdCliente")
+                        .IsUnique();
 
                     b.ToTable("Visitas");
                 });
@@ -247,15 +285,19 @@ namespace ApiBTG.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ApiBTG.Domain.Entities.Producto", "Producto")
-                        .WithMany("Inscripciones")
-                        .HasForeignKey("IdProducto")
+                    b.HasOne("ApiBTG.Domain.Entities.Disponibilidad", "Disponibilidad")
+                        .WithMany()
+                        .HasForeignKey("IdDisponibilidad")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ApiBTG.Domain.Entities.Producto", null)
+                        .WithMany("Inscripciones")
+                        .HasForeignKey("ProductoId");
+
                     b.Navigation("Cliente");
 
-                    b.Navigation("Producto");
+                    b.Navigation("Disponibilidad");
                 });
 
             modelBuilder.Entity("ApiBTG.Domain.Entities.Visitan", b =>

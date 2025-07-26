@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiBTG.Domain.Entities
 {
+    [Table(name: "Cliente")]
     public class Cliente
     {
         [Key]
@@ -27,6 +28,6 @@ namespace ApiBTG.Domain.Entities
         
         // Navigation properties para las relaciones many-to-many
         public virtual ICollection<Inscripcion> Inscripciones { get; set; } = new List<Inscripcion>();
-        public virtual ICollection<Visitan> Visitas { get; set; } = new List<Visitan>();
+        public virtual ICollection<Visita> Visitas { get; set; } = new List<Visita>();
     }
 } 

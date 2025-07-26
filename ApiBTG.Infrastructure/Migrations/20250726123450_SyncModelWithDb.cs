@@ -5,7 +5,7 @@
 namespace ApiBTG.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class MoveMontoMinimoFromInscripcionToDisponibilidad : Migration
+    public partial class SyncModelWithDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
