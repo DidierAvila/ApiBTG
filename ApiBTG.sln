@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
+VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiBTG", "ApiBTG\ApiBTG.csproj", "{44BD7C93-02A1-4B8A-B17D-C083445F10F6}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiBTG.Infrastructure", "ApiBTG.Infrastructure\ApiBTG.Infrastructure.csproj", "{EBB9627A-03E7-4909-A910-00BD8F798B0D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiBTG.Application", "ApiBTG.Application\ApiBTG.Application.csproj", "{F00655A3-1B59-46F3-AFD4-238BBFB49FD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiBTG.Test", "ApiBTG.Test\ApiBTG.Test.csproj", "{F9EDB869-F2F6-4AEE-A97C-70975CD8681F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F00655A3-1B59-46F3-AFD4-238BBFB49FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F00655A3-1B59-46F3-AFD4-238BBFB49FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F00655A3-1B59-46F3-AFD4-238BBFB49FD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9EDB869-F2F6-4AEE-A97C-70975CD8681F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9EDB869-F2F6-4AEE-A97C-70975CD8681F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9EDB869-F2F6-4AEE-A97C-70975CD8681F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9EDB869-F2F6-4AEE-A97C-70975CD8681F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
