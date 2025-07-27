@@ -9,13 +9,13 @@ namespace ApiBTG.Test.Users
         public void User_ConDatosValidos_DebeCrearseCorrectamente()
         {
             // Arrange & Act
-            var user = new User
+            var user = new Usuario
             {
                 Id = 1,
-                FirstName = "Juan",
-                LastName = "Pérez",
+                Nombre = "Juan",
+                Apellido = "Pérez",
                 Email = "juan.perez@email.com",
-                Password = "password123",
+                Clave = "password123",
                 Role = "Cliente",
                 NotificacionPreferida = "Email",
                 Telefono = "+34612345678"
@@ -24,10 +24,10 @@ namespace ApiBTG.Test.Users
             // Assert
             user.Should().NotBeNull();
             user.Id.Should().Be(1);
-            user.FirstName.Should().Be("Juan");
-            user.LastName.Should().Be("Pérez");
+            user.Nombre.Should().Be("Juan");
+            user.Apellido.Should().Be("Pérez");
             user.Email.Should().Be("juan.perez@email.com");
-            user.Password.Should().Be("password123");
+            user.Clave.Should().Be("password123");
             user.Role.Should().Be("Cliente");
             user.NotificacionPreferida.Should().Be("Email");
             user.Telefono.Should().Be("+34612345678");
@@ -37,13 +37,13 @@ namespace ApiBTG.Test.Users
         public void User_ConIdCero_DebeTenerIdCero()
         {
             // Arrange & Act
-            var user = new User
+            var user = new Usuario
             {
                 Id = 0,
-                FirstName = "María",
-                LastName = "García",
+                Nombre = "María",
+                Apellido = "García",
                 Email = "maria.garcia@email.com",
-                Password = "password456",
+                Clave = "password456",
                 Role = "Admin",
                 NotificacionPreferida = "SMS",
                 Telefono = "+34687654321"
@@ -57,32 +57,32 @@ namespace ApiBTG.Test.Users
         public void User_ConFirstNameVacio_DebeTenerFirstNameVacio()
         {
             // Arrange & Act
-            var user = new User
+            var user = new Usuario
             {
                 Id = 2,
-                FirstName = "",
-                LastName = "Martínez",
+                Nombre = "",
+                Apellido = "Martínez",
                 Email = "test@email.com",
-                Password = "password123",
+                Clave = "password123",
                 Role = "Cliente",
                 NotificacionPreferida = "Email"
             };
 
             // Assert
-            user.FirstName.Should().BeEmpty();
+            user.Nombre.Should().BeEmpty();
         }
 
         [Fact]
         public void User_ConTelefonoNulo_DebeTenerTelefonoNulo()
         {
             // Arrange & Act
-            var user = new User
+            var user = new Usuario
             {
                 Id = 8,
-                FirstName = "Diego",
-                LastName = "Moreno",
+                Nombre = "Diego",
+                Apellido = "Moreno",
                 Email = "diego@email.com",
-                Password = "password789",
+                Clave = "password789",
                 Role = "Cliente",
                 NotificacionPreferida = "Email",
                 Telefono = null
@@ -99,19 +99,19 @@ namespace ApiBTG.Test.Users
         public void User_ConFirstNamesValidos_DebeAceptarFirstNames(string firstName)
         {
             // Arrange & Act
-            var user = new User
+            var user = new Usuario
             {
                 Id = 9,
-                FirstName = firstName,
-                LastName = "Test",
+                Nombre = firstName,
+                Apellido = "Test",
                 Email = "test@email.com",
-                Password = "password123",
+                Clave = "password123",
                 Role = "Cliente",
                 NotificacionPreferida = "Email"
             };
 
             // Assert
-            user.FirstName.Should().Be(firstName);
+            user.Nombre.Should().Be(firstName);
         }
 
         [Theory]
@@ -121,13 +121,13 @@ namespace ApiBTG.Test.Users
         public void User_ConEmailsValidos_DebeAceptarEmails(string email)
         {
             // Arrange & Act
-            var user = new User
+            var user = new Usuario
             {
                 Id = 11,
-                FirstName = "Test",
-                LastName = "User",
+                Nombre = "Test",
+                Apellido = "User",
                 Email = email,
-                Password = "password123",
+                Clave = "password123",
                 Role = "Cliente",
                 NotificacionPreferida = "Email"
             };
@@ -143,13 +143,13 @@ namespace ApiBTG.Test.Users
         public void User_ConRolesValidos_DebeAceptarRoles(string role)
         {
             // Arrange & Act
-            var user = new User
+            var user = new Usuario
             {
                 Id = 13,
-                FirstName = "Test",
-                LastName = "User",
+                Nombre = "Test",
+                Apellido = "User",
                 Email = "test@email.com",
-                Password = "password123",
+                Clave = "password123",
                 Role = role,
                 NotificacionPreferida = "Email"
             };
@@ -162,13 +162,13 @@ namespace ApiBTG.Test.Users
         public void User_ConNotificacionPreferidaPorDefecto_DebeTenerEmailPorDefecto()
         {
             // Arrange & Act
-            var user = new User
+            var user = new Usuario
             {
                 Id = 23,
-                FirstName = "Test",
-                LastName = "User",
+                Nombre = "Test",
+                Apellido = "User",
                 Email = "test@email.com",
-                Password = "password123",
+                Clave = "password123",
                 Role = "Cliente"
             };
 
@@ -180,20 +180,20 @@ namespace ApiBTG.Test.Users
         public void User_ConCaracteresEspecialesEnNombres_DebeAceptarCaracteresEspeciales()
         {
             // Arrange & Act
-            var user = new User
+            var user = new Usuario
             {
                 Id = 24,
-                FirstName = "José María",
-                LastName = "García-López",
+                Nombre = "José María",
+                Apellido = "García-López",
                 Email = "jose.maria@email.com",
-                Password = "password123",
+                Clave = "password123",
                 Role = "Cliente",
                 NotificacionPreferida = "Email"
             };
 
             // Assert
-            user.FirstName.Should().Be("José María");
-            user.LastName.Should().Be("García-López");
+            user.Nombre.Should().Be("José María");
+            user.Apellido.Should().Be("García-López");
         }
     }
 } 

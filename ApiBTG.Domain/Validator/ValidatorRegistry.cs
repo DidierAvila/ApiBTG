@@ -41,7 +41,7 @@ namespace ApiBTG.Domain.Validator
         /// <summary>
         /// Obtiene el validador para la entidad User
         /// </summary>
-        public static IValidator<User> UserValidator => new UserValidator();
+        public static IValidator<Usuario> UserValidator => new UserValidator();
 
         /// <summary>
         /// Obtiene el validador para la entidad Token

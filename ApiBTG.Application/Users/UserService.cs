@@ -5,21 +5,21 @@ namespace ApiBTG.Application.Users
 {
     public class UserService : IUserService
     {
-        private readonly IRepositoryBase<User> _UserRepository;
+        private readonly IRepositoryBase<Usuario> _UserRepository;
 
-        public UserService(IRepositoryBase<User> userRepository)
+        public UserService(IRepositoryBase<Usuario> userRepository)
         {
             _UserRepository = userRepository;
         }
 
-        public async Task<User> Create(User createUser, CancellationToken cancellationToken)
+        public async Task<Usuario> Create(Usuario createUser, CancellationToken cancellationToken)
         {
             return await _UserRepository.Create(createUser, cancellationToken);
         }
 
-        public async Task<User?> Get(int id, CancellationToken cancellationToken)
+        public async Task<Usuario?> Get(int id, CancellationToken cancellationToken)
         {
-            User? CurrentUser = await _UserRepository.GetByID(id, cancellationToken);
+            Usuario? CurrentUser = await _UserRepository.GetByID(id, cancellationToken);
             if (CurrentUser != null)
             {
                 return CurrentUser;
@@ -27,21 +27,21 @@ namespace ApiBTG.Application.Users
             return null;
         }
 
-        public async Task<User?> Update(User updateRequest, CancellationToken cancellationToken)
+        public async Task<Usuario?> Update(Usuario updateRequest, CancellationToken cancellationToken)
         {
-            User? entity = await _UserRepository.GetByID(updateRequest.Id, cancellationToken);
+            Usuario? entity = await _UserRepository.GetByID(updateRequest.Id, cancellationToken);
             await _UserRepository.Update(updateRequest, cancellationToken);
 
             return entity;
         }
 
-        public async Task<ICollection<User>> GetAll(CancellationToken cancellationToken)
+        public async Task<ICollection<Usuario>> GetAll(CancellationToken cancellationToken)
         {
-            IEnumerable<User> CurrentUsers = [];
+            IEnumerable<Usuario> CurrentUsers = [];
             CurrentUsers = await _UserRepository.GetAll(cancellationToken);
             if (CurrentUsers != null)
             {
-                return (ICollection<User>)CurrentUsers;
+                return (ICollection<Usuario>)CurrentUsers;
             }
             return CurrentUsers!.ToList();
         }

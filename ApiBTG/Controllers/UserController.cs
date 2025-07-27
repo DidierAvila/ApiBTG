@@ -24,12 +24,12 @@ namespace ApiBTG.Controllers
         // GET: api/User
         [HttpGet]
         [Authorize(Roles = "administrador")]
-        public async Task<ActionResult<ApiResponseDto<ICollection<User>>>> GetUsers()
+        public async Task<ActionResult<ApiResponseDto<ICollection<Usuario>>>> GetUsers()
         {
             try
             {
-                ICollection<User> users = await _userService.GetAll(cancellationToken: CancellationToken.None);
-                return Ok(ApiResponseDto<ICollection<User>>.SuccessResult(users, "Usuarios obtenidos exitosamente"));
+                ICollection<Usuario> users = await _userService.GetAll(cancellationToken: CancellationToken.None);
+                return Ok(ApiResponseDto<ICollection<Usuario>>.SuccessResult(users, "Usuarios obtenidos exitosamente"));
             }
             catch (Exception ex)
             {
@@ -41,16 +41,16 @@ namespace ApiBTG.Controllers
         // GET: api/User/5
         [HttpGet("{id}")]
         [Authorize(Roles = "administrador")]
-        public async Task<ActionResult<ApiResponseDto<User>>> GetUser(int id)
+        public async Task<ActionResult<ApiResponseDto<Usuario>>> GetUser(int id)
         {
             try
             {
-                User? user = await _userService.Get(id, cancellationToken: CancellationToken.None);
+                Usuario? user = await _userService.Get(id, cancellationToken: CancellationToken.None);
                 if (user == null)
                 {
                     return NotFound(ApiResponseDto<UserDto>.ErrorResult($"Usuario con ID {id} no encontrado"));
                 }
-                return Ok(ApiResponseDto<User>.SuccessResult(user, "Usuario obtenido exitosamente"));
+                return Ok(ApiResponseDto<Usuario>.SuccessResult(user, "Usuario obtenido exitosamente"));
             }
             catch (Exception ex)
             {
@@ -62,7 +62,7 @@ namespace ApiBTG.Controllers
         // POST: api/User
         [HttpPost]
         [Authorize(Roles = "administrador")]
-        public async Task<ActionResult<ApiResponseDto<User>>> CreateUser(CreateUserDto createUserDto)
+        public async Task<ActionResult<ApiResponseDto<Usuario>>> CreateUser(CreateUserDto createUserDto)
         {
             try
             {
@@ -75,10 +75,10 @@ namespace ApiBTG.Controllers
                     return BadRequest(ApiResponseDto<UserDto>.ErrorResult("Datos de entrada inválidos", errors));
                 }
                 var user = await _userService.Create(
-                    new User() { FirstName = createUserDto.FirstName, LastName = createUserDto.LastName, Email = createUserDto.Email, Role = createUserDto.Role, Password = createUserDto.Password },
+                    new Usuario() { Nombre = createUserDto.FirstName, Apellido = createUserDto.LastName, Email = createUserDto.Email, Role = createUserDto.Role, Clave = createUserDto.Password },
                     cancellationToken: CancellationToken.None);
                 return CreatedAtAction(nameof(GetUser), new { id = user.Id },
-                    ApiResponseDto<User>.SuccessResult(user, "Usuario creado exitosamente"));
+                    ApiResponseDto<Usuario>.SuccessResult(user, "Usuario creado exitosamente"));
             }
             catch (ValidationException ex)
             {

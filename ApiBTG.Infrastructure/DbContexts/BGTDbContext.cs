@@ -9,7 +9,7 @@ namespace ApiBTG.Infrastructure.DbContexts
         {
         }
 
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Usuario> Users { get; set; }
         public virtual DbSet<Token> Tokens { get; set; }
         public virtual DbSet<Cliente> Clientes { get; set; }
         public virtual DbSet<Producto> Productos { get; set; }
@@ -26,7 +26,7 @@ namespace ApiBTG.Infrastructure.DbContexts
             modelBuilder.Entity<Token>()
                 .HasKey(i => i.Id);
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<Usuario>()
                 .HasKey(i => i.Id);
 
             modelBuilder.Entity<Cliente>()

@@ -14,10 +14,10 @@ namespace ApiBTG.Application.Security
     {
         private readonly IConfiguration _configuration;
         private readonly IRepositoryBase<Token> _TokenRepository;
-        private readonly IRepositoryBase<User> _UserRepository;
+        private readonly IRepositoryBase<Usuario> _UserRepository;
         private readonly ILogger<SecurityService> _logger;
 
-        public SecurityService(IConfiguration configuration, IRepositoryBase<Token> tokenRepository, IRepositoryBase<User> userRepository, ILogger<SecurityService> logger)
+        public SecurityService(IConfiguration configuration, IRepositoryBase<Token> tokenRepository, IRepositoryBase<Usuario> userRepository, ILogger<SecurityService> logger)
         {
             _configuration = configuration;
             _TokenRepository = tokenRepository;
@@ -27,7 +27,7 @@ namespace ApiBTG.Application.Security
 
         public async Task<LoginResponse?> Login(LoginRequest autorizacion, CancellationToken cancellationToken)
         {
-            User? CurrentUser = await _UserRepository.Find(x => x.Email == autorizacion.UserName && x.Password == autorizacion.Password, cancellationToken);
+            Usuario? CurrentUser = await _UserRepository.Find(x => x.Email == autorizacion.UserName && x.Clave == autorizacion.Password, cancellationToken);
             if (CurrentUser != null)
             {
                 _logger.LogInformation("Login: succes");
@@ -40,7 +40,7 @@ namespace ApiBTG.Application.Security
             return null;
         }
 
-        private async Task<string> GenerateTokenAsync(User user, CancellationToken cancellationToken)
+        private async Task<string> GenerateTokenAsync(Usuario user, CancellationToken cancellationToken)
         {
             string? key = _configuration.GetValue<string>("JwtSettings:key");
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!));
@@ -51,8 +51,8 @@ namespace ApiBTG.Application.Security
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.GivenName, user.FirstName),
-                new Claim(ClaimTypes.Surname, user.LastName),
+                new Claim(ClaimTypes.GivenName, user.Nombre),
+                new Claim(ClaimTypes.Surname, user.Apellido),
                 new Claim(ClaimTypes.Role, user.Role),
             };
 
@@ -85,7 +85,7 @@ namespace ApiBTG.Application.Security
             return Newtoken;
         }
 
-        private async Task<string> RefreshTokenAsync(Token token, User user, CancellationToken cancellationToken)
+        private async Task<string> RefreshTokenAsync(Token token, Usuario user, CancellationToken cancellationToken)
         {
             token.Status = false;
             await _TokenRepository.Update(token, cancellationToken);
@@ -94,7 +94,7 @@ namespace ApiBTG.Application.Security
             return currentToken;
         }
 
-        private async Task<string> GetToken(User user, CancellationToken cancellationToken)
+        private async Task<string> GetToken(Usuario user, CancellationToken cancellationToken)
         {
             var CurrentToken = await _TokenRepository.Find(x => x.IdUsuario == user.Id && x.Status, cancellationToken);
             if (CurrentToken != null)

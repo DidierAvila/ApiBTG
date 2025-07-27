@@ -35,6 +35,6 @@ namespace ApiBTG.Domain.Entities
         
         // Navigation property para la relación con User
         [ForeignKey("UsuarioId")]
-        public virtual User? Usuario { get; set; }
+        public virtual Usuario? Usuario { get; set; }
     }
 } 
