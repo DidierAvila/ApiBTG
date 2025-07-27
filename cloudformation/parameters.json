@@ -1,0 +1,62 @@
+[
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "production"
+  },
+  {
+    "ParameterKey": "DBInstanceClass",
+    "ParameterValue": "db.t3.micro"
+  },
+  {
+    "ParameterKey": "DBName",
+    "ParameterValue": "BTG"
+  },
+  {
+    "ParameterKey": "DBUsername",
+    "ParameterValue": "admin"
+  },
+  {
+    "ParameterKey": "DBPassword",
+    "ParameterValue": "YOUR_SECURE_DB_PASSWORD"
+  },
+  {
+    "ParameterKey": "JwtKey",
+    "ParameterValue": "YOUR_JWT_SECRET_KEY"
+  },
+  {
+    "ParameterKey": "MailtrapUsername",
+    "ParameterValue": "YOUR_MAILTRAP_USERNAME"
+  },
+  {
+    "ParameterKey": "MailtrapPassword",
+    "ParameterValue": "YOUR_MAILTRAP_PASSWORD"
+  },
+  {
+    "ParameterKey": "TwilioAccountSid",
+    "ParameterValue": "YOUR_TWILIO_ACCOUNT_SID"
+  },
+  {
+    "ParameterKey": "TwilioAuthToken",
+    "ParameterValue": "YOUR_TWILIO_AUTH_TOKEN"
+  },
+  {
+    "ParameterKey": "ImageUri",
+    "ParameterValue": "REPLACE_WITH_YOUR_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/apibtg:latest"
+  },
+  {
+    "ParameterKey": "ContainerPort",
+    "ParameterValue": "80"
+  },
+  {
+    "ParameterKey": "DesiredCount",
+    "ParameterValue": "2"
+  },
+  {
+    "ParameterKey": "Cpu",
+    "ParameterValue": "256"
+  },
+  {
+    "ParameterKey": "Memory",
+    "ParameterValue": "512"
+  }
+] 
