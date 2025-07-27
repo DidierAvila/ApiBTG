@@ -17,7 +17,8 @@ namespace ApiBTG.Extenciones
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRepositoryBase<User>, RepositoryBase<User>>();
             services.AddScoped<IRepositoryBase<Token>, RepositoryBase<Token>>();
-
+            services.AddScoped<IRepositoryBase<User>, RepositoryBase<User>>();
+            
             services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(GetClientesQuery).Assembly));
             services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(GetVisitasQueryHandler).Assembly));
 
@@ -32,8 +33,7 @@ namespace ApiBTG.Extenciones
             // Register Notification Services
             services.AddScoped<EmailNotificationService>();
             services.AddScoped<SmsNotificationService>();
-            services.AddScoped<NotificacionCommandHandler>();
-            
+            services.AddScoped<NotificacionCommandHandler>();   
 
             return services;
         }

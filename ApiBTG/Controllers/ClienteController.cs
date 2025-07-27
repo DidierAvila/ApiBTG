@@ -7,6 +7,7 @@ using ApiBTG.Application.Clientes.Queries.GetClientesConInscripcionesEnSucursale
 using ApiBTG.Domain.Dtos;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiBTG.Controllers
@@ -26,6 +27,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Cliente
         [HttpGet]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<IEnumerable<ClienteDto>>>> GetClientes()
         {
             try
@@ -44,6 +46,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Cliente/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<ClienteDto>>> GetCliente(int id)
         {
             try
@@ -67,6 +70,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Cliente/con-inscripciones-en-sucursales-visitadas
         [HttpGet("sucursales-visitadas")]
+        [Authorize(Roles = "usuario")]
         public async Task<IActionResult> GetClientesConInscripcionesEnSucursalesVisitadas(
             [FromQuery] int? clienteId = null,
             [FromQuery] int? sucursalId = null)
@@ -83,6 +87,7 @@ namespace ApiBTG.Controllers
 
         // POST: api/Cliente
         [HttpPost]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<ClienteDto>>> CreateCliente(CreateClienteDto createClienteDto)
         {
             try
@@ -122,6 +127,7 @@ namespace ApiBTG.Controllers
 
         // PUT: api/Cliente/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<ClienteDto>>> UpdateCliente(int id, UpdateClienteDto updateClienteDto)
         {
             try
@@ -165,6 +171,7 @@ namespace ApiBTG.Controllers
 
         // DELETE: api/Cliente/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<bool>>> DeleteCliente(int id)
         {
             try

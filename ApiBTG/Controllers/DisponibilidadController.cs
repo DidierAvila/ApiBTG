@@ -5,6 +5,7 @@ using ApiBTG.Application.Disponibilidades.Queries.GetDisponibilidadById;
 using ApiBTG.Application.Disponibilidades.Queries.GetDisponibilidades;
 using ApiBTG.Domain.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiBTG.Controllers
@@ -24,6 +25,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Disponibilidad
         [HttpGet]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<IEnumerable<DisponibilidadDto>>>> GetDisponibilidades()
         {
             try
@@ -42,6 +44,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Disponibilidad/5/10
         [HttpGet("{idSucursal}/{idProducto}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<DisponibilidadDto>>> GetDisponibilidad(int idSucursal, int idProducto)
         {
             try
@@ -69,6 +72,7 @@ namespace ApiBTG.Controllers
 
         // POST: api/Disponibilidad
         [HttpPost]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<DisponibilidadDto>>> CreateDisponibilidad(CreateDisponibilidadDto createDisponibilidadDto)
         {
             try
@@ -103,11 +107,6 @@ namespace ApiBTG.Controllers
             {
                 return BadRequest(ApiResponseDto<DisponibilidadDto>.ErrorResult(ex.Message));
             }
-            //catch (ValidationException ex)
-            //{
-            //    var errors = ex.Errors.Select(e => e.ErrorMessage).ToList();
-            //    return BadRequest(ApiResponseDto<DisponibilidadDto>.ErrorResult("Error de validación", errors));
-            //}
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al crear disponibilidad");
@@ -117,6 +116,7 @@ namespace ApiBTG.Controllers
 
         // PUT: api/Disponibilidad/5/10
         [HttpPut("{idSucursal}/{idProducto}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<DisponibilidadDto>>> UpdateDisponibilidad(int idSucursal, int idProducto, UpdateDisponibilidadDto updateDisponibilidadDto)
         {
             try
@@ -147,11 +147,6 @@ namespace ApiBTG.Controllers
             {
                 return NotFound(ApiResponseDto<DisponibilidadDto>.ErrorResult(ex.Message));
             }
-            //catch (ValidationException ex)
-            //{
-            //    var errors = ex.Errors.Select(e => e.ErrorMessage).ToList();
-            //    return BadRequest(ApiResponseDto<DisponibilidadDto>.ErrorResult("Error de validación", errors));
-            //}
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al actualizar disponibilidad con Sucursal ID {IdSucursal} y Producto ID {IdProducto}", idSucursal, idProducto);
@@ -161,6 +156,7 @@ namespace ApiBTG.Controllers
 
         // DELETE: api/Disponibilidad/5/10
         [HttpDelete("{idSucursal}/{idProducto}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<bool>>> DeleteDisponibilidad(int idSucursal, int idProducto)
         {
             try

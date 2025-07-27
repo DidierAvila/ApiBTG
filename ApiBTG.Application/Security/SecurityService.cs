@@ -25,7 +25,7 @@ namespace ApiBTG.Application.Security
             _logger = logger;
         }
 
-        public async Task<LoginResponse> Login(LoginRequest autorizacion, CancellationToken cancellationToken)
+        public async Task<LoginResponse?> Login(LoginRequest autorizacion, CancellationToken cancellationToken)
         {
             User? CurrentUser = await _UserRepository.Find(x => x.Email == autorizacion.UserName && x.Password == autorizacion.Password, cancellationToken);
             if (CurrentUser != null)
@@ -42,8 +42,8 @@ namespace ApiBTG.Application.Security
 
         private async Task<string> GenerateTokenAsync(User user, CancellationToken cancellationToken)
         {
-            var key = _configuration.GetValue<string>("JwtSettings:key");
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            string? key = _configuration.GetValue<string>("JwtSettings:key");
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             // Crear los claims
@@ -114,7 +114,7 @@ namespace ApiBTG.Application.Security
                     return currentToken;
                 }
             }
-            return null;
+            return string.Empty;
         }
     }
 }

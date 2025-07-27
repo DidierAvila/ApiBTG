@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiBTG.Controllers
@@ -14,6 +15,7 @@ namespace ApiBTG.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "administrador")]
         public IActionResult Health()
         {
             _logger.LogInformation("Health check requested at {Time}", DateTime.UtcNow);
@@ -28,6 +30,7 @@ namespace ApiBTG.Controllers
         }
 
         [HttpGet("ready")]
+        [Authorize(Roles = "administrador")]
         public IActionResult Ready()
         {
             // Aquí puedes agregar verificaciones adicionales como:

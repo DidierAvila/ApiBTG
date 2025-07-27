@@ -5,6 +5,7 @@ using ApiBTG.Application.Inscripciones.Queries.GetInscripcionById;
 using ApiBTG.Application.Inscripciones.Queries.GetInscripciones;
 using ApiBTG.Domain.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiBTG.Controllers
@@ -24,6 +25,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Inscripcion
         [HttpGet]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<IEnumerable<InscripcionDto>>>> GetInscripciones()
         {
             try
@@ -42,6 +44,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Inscripcion/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<InscripcionDto>>> GetInscripcion(int id)
         {
             try
@@ -68,6 +71,7 @@ namespace ApiBTG.Controllers
 
         // POST: api/Inscripcion
         [HttpPost]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<InscripcionDto>>> CreateInscripcion(CreateInscripcionDto createInscripcionDto)
         {
             try
@@ -110,6 +114,7 @@ namespace ApiBTG.Controllers
 
         // PUT: api/Inscripcion/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<InscripcionDto>>> UpdateInscripcion(int id, UpdateInscripcionDto updateInscripcionDto)
         {
             try
@@ -138,11 +143,6 @@ namespace ApiBTG.Controllers
             {
                 return NotFound(ApiResponseDto<InscripcionDto>.ErrorResult(ex.Message));
             }
-            //catch (ValidationException ex)
-            //{
-            //    var errors = ex.Errors.Select(e => e.ErrorMessage).ToList();
-            //    return BadRequest(ApiResponseDto<InscripcionDto>.ErrorResult("Error de validación", errors));
-            //}
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al actualizar inscripción con ID {Id}", id);
@@ -152,6 +152,7 @@ namespace ApiBTG.Controllers
 
         // DELETE: api/Inscripcion/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<bool>>> DeleteInscripcion(int id)
         {
             try

@@ -22,7 +22,7 @@ namespace ApiBTG.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest autorizacion, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Login");
-            LoginResponse Response = await _SecurityService.Login(autorizacion, cancellationToken);
+            LoginResponse? Response = await _SecurityService.Login(autorizacion, cancellationToken);
             if (Response == null)
                 return BadRequest();
 

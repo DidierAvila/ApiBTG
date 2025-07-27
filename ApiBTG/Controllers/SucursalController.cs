@@ -5,6 +5,7 @@ using ApiBTG.Application.Sucursales.Queries.GetSucursalById;
 using ApiBTG.Application.Sucursales.Queries.GetSucursales;
 using ApiBTG.Domain.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiBTG.Controllers
@@ -24,6 +25,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Sucursal
         [HttpGet]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<IEnumerable<SucursalDto>>>> GetSucursales()
         {
             try
@@ -42,6 +44,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Sucursal/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<SucursalDto>>> GetSucursal(int id)
         {
             try
@@ -65,6 +68,7 @@ namespace ApiBTG.Controllers
 
         // POST: api/Sucursal
         [HttpPost]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<SucursalDto>>> CreateSucursal(CreateSucursalDto createSucursalDto)
         {
             try
@@ -98,6 +102,7 @@ namespace ApiBTG.Controllers
 
         // PUT: api/Sucursal/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<SucursalDto>>> UpdateSucursal(int id, UpdateSucursalDto updateSucursalDto)
         {
             try
@@ -135,6 +140,7 @@ namespace ApiBTG.Controllers
 
         // DELETE: api/Sucursal/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<bool>>> DeleteSucursal(int id)
         {
             try

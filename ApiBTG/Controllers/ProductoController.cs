@@ -5,6 +5,7 @@ using ApiBTG.Application.Productos.Queries.GetProductoById;
 using ApiBTG.Application.Productos.Queries.GetProductos;
 using ApiBTG.Domain.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiBTG.Controllers
@@ -24,6 +25,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Producto
         [HttpGet]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<IEnumerable<ProductoDto>>>> GetProductos()
         {
             try
@@ -42,6 +44,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Producto/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<ProductoDto>>> GetProducto(int id)
         {
             try
@@ -65,6 +68,7 @@ namespace ApiBTG.Controllers
 
         // POST: api/Producto
         [HttpPost]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<ProductoDto>>> CreateProducto(CreateProductoDto createProductoDto)
         {
             try
@@ -98,6 +102,7 @@ namespace ApiBTG.Controllers
 
         // PUT: api/Producto/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<ProductoDto>>> UpdateProducto(int id, UpdateProductoDto updateProductoDto)
         {
             try
@@ -135,6 +140,7 @@ namespace ApiBTG.Controllers
 
         // DELETE: api/Producto/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<bool>>> DeleteProducto(int id)
         {
             try

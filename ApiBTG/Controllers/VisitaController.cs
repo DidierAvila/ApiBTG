@@ -1,10 +1,8 @@
-using ApiBTG.Application.Visitas.Commands.CreateVisita;
-using ApiBTG.Application.Visitas.Commands.DeleteVisita;
-using ApiBTG.Application.Visitas.Commands.UpdateVisita;
 using ApiBTG.Application.Visitas.Queries.GetVisitaById;
 using ApiBTG.Application.Visitas.Queries.GetVisitas;
 using ApiBTG.Domain.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiBTG.Controllers
@@ -24,6 +22,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Visita
         [HttpGet]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<IEnumerable<VisitaDto>>>> GetVisitas()
         {
             try
@@ -42,6 +41,7 @@ namespace ApiBTG.Controllers
 
         // GET: api/Visita/5/10
         [HttpGet("{idSucursal}/{idCliente}")]
+        [Authorize(Roles = "usuario")]
         public async Task<ActionResult<ApiResponseDto<VisitaDto>>> GetVisita(int idSucursal, int idCliente)
         {
             try
