@@ -82,11 +82,11 @@ builder.Services.Configure<TwilioSettings>(builder.Configuration.GetSection("Twi
 var app = builder.Build();
 
 // Configure Application Context
-using (var scope = app.Services.CreateScope())
-{
-    BGTDbContext q10DbContext = scope.ServiceProvider.GetRequiredService<BGTDbContext>();
-    q10DbContext.Database.Migrate();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    BGTDbContext q10DbContext = scope.ServiceProvider.GetRequiredService<BGTDbContext>();
+//    q10DbContext.Database.Migrate();
+//}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
